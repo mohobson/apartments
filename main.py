@@ -87,8 +87,8 @@ def ReadAsin():
 
 	# if none, then keep going
 	# if not none, break
-	if len(ans) > 1:
-		print('gonna break!')	
+	if len(ans) < 1:
+		print('nothing available yet')	
 	else:
 		try:
 			print('Sending email...')
