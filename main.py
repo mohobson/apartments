@@ -43,8 +43,6 @@ def check(url):
 def sendemail(ans, product):
 	GMAIL_USERNAME = os.getenv('GMAIL_USERNAME')
 	GMAIL_PASSWORD = os.getenv('GMAIL_PASSWORD')
-	print(GMAIL_USERNAME)
-	print(type(GMAIL_USERNAME))
 	
 	recipient = receiver_email_id
 	body_of_email = ans
@@ -72,22 +70,34 @@ def sendemail(ans, product):
 
 
 def ReadAsin():
-	# Asin Id is the product Id which
-	# needs to be provided by the user
+
+	# if this were a stock check...
 	# Asin = 'B077PWK5BT'
 	# url = "https://www.amazon.in/dp/" + Asin
+
 	url = 'https://highlandsatolderaleigh.com/available-now/'
 	print ("Processing: "+url)
 	ans = check(url)
-	arr = [
-		'Only 1 left in stock.',
-		'Only 2 left in stock.',
-		'In stock.']
-	print(ans)
-	# if ans in arr:
-	# 	# sending email to user if
-	# 	# in case product available
-	sendemail(ans, url)
+
+	# if this were a stock check...
+	# arr = [
+	# 	'Only 1 left in stock.',
+	# 	'Only 2 left in stock.',
+	# 	'In stock.']
+
+	# if none, then keep going
+	# if not none, break
+	if len(ans) > 1:
+		print('gonna break!')	
+	else:
+		try:
+			print('Sending email...')
+			sendemail(ans, url)
+		except:
+			print('Sending email...')
+			sendemail('check the url', url)
+		exit()
+
 
 # scheduling same code to run multiple
 # times after every 1 minute
@@ -95,7 +105,7 @@ def job():
 	print("Tracking....")
 	ReadAsin()
 
-schedule.every(1).minutes.do(job)
+schedule.every(1).minutes.do(job).tag('apartment')
 
 while True:
 	
